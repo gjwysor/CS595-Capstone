@@ -37,7 +37,10 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ListView" />
-        <activity android:name=".ProfileView"></activity>
+        <activity android:name=".ProfileView" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".PostJob" />
+        <activity android:name=".SignUp"></activity>
     </application>
 
 </manifest>

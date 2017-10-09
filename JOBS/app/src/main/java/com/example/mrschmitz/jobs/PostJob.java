@@ -5,16 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class ListView extends AppCompatActivity {
+public class PostJob extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_view);
+        setContentView(R.layout.activity_post_job);
     }
 
-    public void backgoogle(View view){
-        Intent intent = new Intent(ListView.this, GoogleView.class);
+    public void backToProfile(View view){
+        Intent intent = new Intent(PostJob.this, ProfileView.class);
         startActivity(intent);
     }
 }
