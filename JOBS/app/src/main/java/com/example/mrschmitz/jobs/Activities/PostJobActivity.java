@@ -1,11 +1,13 @@
-package com.example.mrschmitz.jobs;
+package com.example.mrschmitz.jobs.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class PostJob extends AppCompatActivity {
+import com.example.mrschmitz.jobs.R;
+
+public class PostJobActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +16,7 @@ public class PostJob extends AppCompatActivity {
     }
 
     public void backToProfile(View view){
-        Intent intent = new Intent(PostJob.this, ProfileView.class);
+        Intent intent = new Intent(PostJobActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
 }

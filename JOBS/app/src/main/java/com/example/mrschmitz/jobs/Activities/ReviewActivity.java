@@ -1,13 +1,15 @@
-package com.example.mrschmitz.jobs;
+package com.example.mrschmitz.jobs.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SignUp extends AppCompatActivity {
+import com.example.mrschmitz.jobs.R;
+
+public class ReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_review);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mrschmitz.jobs.ProfileView">
+    tools:context="com.example.mrschmitz.jobs.Activities.ProfileActivity">
 
     <Button
         android:id="@+id/backToGoogle"
@@ -72,5 +72,14 @@
         android:text="Skills"
         android:layout_below="@+id/textView2"
         android:layout_alignStart="@+id/textView2" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="review"
+        android:layout_alignBottom="@+id/button4"
+        android:layout_alignStart="@+id/profile_img"
+        android:text="Review" />
 
 </RelativeLayout>
