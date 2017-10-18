@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "211853714317",
+    "firebase_url": "https://jobs-54ab9.firebaseio.com",
+    "project_id": "jobs-54ab9",
+    "storage_bucket": "jobs-54ab9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211853714317:android:a8c4ac18ca27f16f",
+        "android_client_info": {
+          "package_name": "com.example.mrschmitz.jobs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211853714317-2bnsuf3q7ih6u7r6n8pk6mfpqcr9jrha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mrschmitz.jobs",
+            "certificate_hash": "fbf6f88f4426a81de6f694fba1e08821149a2497"
+          }
+        },
+        {
+          "client_id": "211853714317-jdm1bgtcm3ko6bsae2g3bqcrosflf6im.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt-7jDgGDghVLu0S87qn9Habe_aELK_F8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211853714317-jdm1bgtcm3ko6bsae2g3bqcrosflf6im.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
