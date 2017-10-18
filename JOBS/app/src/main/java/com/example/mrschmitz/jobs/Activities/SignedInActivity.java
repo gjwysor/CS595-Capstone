@@ -152,12 +152,12 @@ public class SignedInActivity extends AppCompatActivity {
     @MainThread
     private void populateProfile() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user.getPhotoUrl() != null) {
-//            GlideApp.with(this)
-//                    .load(user.getPhotoUrl())
-//                    .fitCenter()
-//                    .into(mUserProfilePicture);
-//        }
+        if (user.getPhotoUrl() != null) {
+            GlideApp.with(this)
+                    .load(user.getPhotoUrl())
+                    .fitCenter()
+                    .into(mUserProfilePicture);
+        }
 
         mUserEmail.setText(
                 TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
