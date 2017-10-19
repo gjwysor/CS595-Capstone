@@ -14,9 +14,4 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="WarnButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">#FF5252</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
 </resources>
