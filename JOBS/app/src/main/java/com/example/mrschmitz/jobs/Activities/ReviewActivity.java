@@ -2,6 +2,7 @@ package com.example.mrschmitz.jobs.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.mrschmitz.jobs.R;
@@ -20,6 +21,9 @@ public class ReviewActivity extends AppCompatActivity {
     @BindView(R.id.username)
     TextView usernameTextView;
 
+    @BindView(R.id.ratingBar)
+    RatingBar ratingBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,5 +37,15 @@ public class ReviewActivity extends AppCompatActivity {
                 .into(avatarView);
 
         usernameTextView.setText(user.getDisplayName());
+
+        // Force ratings of one star or more
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(rating < 1.0f) {
+                    ratingBar.setRating(1.0f);
+                }
+            }
+        });
     }
 }
