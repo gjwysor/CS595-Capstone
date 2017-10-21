@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run(){
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 if (auth.getCurrentUser() != null) {
-                    startSignedInActivity(null);
+                    startSignedInActivity();
                     finish();
                     return;
                 }
@@ -86,7 +86,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Successfully signed in
         if (resultCode == RESULT_OK) {
-            startSignedInActivity(response);
+            startSignedInActivity();
             finish();
             return;
         } else {
@@ -111,18 +111,8 @@ public class SplashActivity extends AppCompatActivity {
         toast(R.string.unknown_sign_in_response);
     }
 
-    private void startSignedInActivity(IdpResponse response) {
-        startActivity(
-                SignedInActivity.createIntent(
-                        this,
-                        response,
-                        new SignedInActivity.SignedInConfig(
-                                getSelectedLogo(),
-                                getSelectedTheme(),
-                                getSelectedProviders(),
-                                FIREBASE_TOS_URL,
-                                true,
-                                true)));
+    private void startSignedInActivity() {
+        startActivity(new Intent(this, MapActivity.class));
     }
 
     @MainThread
