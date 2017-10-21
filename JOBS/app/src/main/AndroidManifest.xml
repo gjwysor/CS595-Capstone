@@ -42,7 +42,6 @@
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.PostJobActivity" />
         <activity android:name=".Activities.ReviewActivity" />
-        <activity android:name=".Activities.SignedInActivity"></activity>
     </application>
 
 </manifest>

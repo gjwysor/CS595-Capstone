@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -30,12 +31,9 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
         ButterKnife.bind(this);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        GlideApp.with(this)
-                .load(user.getPhotoUrl())
-                .fitCenter()
-                .into(avatarView);
+        Utils.loadProfileImage(this, avatarView);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         usernameTextView.setText(user.getDisplayName());
 
         // Force ratings of one star or more
@@ -48,4 +46,10 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.submit)
+    public void submit() {
+        finish();
+    }
+
 }

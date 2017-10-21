@@ -18,9 +18,6 @@
     <string name="sign_out">Sign out</string>
     <string name="delete_account_label">Delete account</string>
 
-    <string name="sign_out_failed">Sign out failed</string>
-    <string name="delete_account_failed">Delete account failed</string>
-
     <string name="user_profile_header">User profile:</string>
     <string name="profile_picture_content_desc">Profile picture</string>
     <string name="idp_token">IDP Token</string>
