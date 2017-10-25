@@ -192,5 +192,13 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/post_job_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToPost"
+            android:text="Post A Job"
+            android:visibility="visible" />
+
     </LinearLayout>
 </ScrollView>

@@ -24,14 +24,14 @@
         android:id="@+id/postjobs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Post Job"
-        android:onClick="postjob"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_alignBaseline="@+id/button5"
         android:layout_alignBottom="@+id/button5"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="postJob"
+        android:text="Post Job"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/button7"
