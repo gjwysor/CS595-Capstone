@@ -152,5 +152,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void averageRatingCard() {
         startActivity(new Intent(ProfileActivity.this, ReviewActivity.class));
     }
+    
+     @OnClick(R.id.post_job_button)		
+    public void goToPost() {		
+        startActivity(new Intent(ProfileActivity.this, PostJobActivity.class));		
+    }
 
 }
