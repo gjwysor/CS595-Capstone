@@ -153,8 +153,4 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(ProfileActivity.this, ReviewActivity.class));
     }
 
-    @OnClick(R.id.post_job_button)
-    public void goToPost() {
-        startActivity(new Intent(ProfileActivity.this, PostJobActivity.class));
-    }
 }
