@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.mrschmitz.jobs.Activities.HomeActivity;
+import com.example.mrschmitz.jobs.Activities.JobListActivity;
 import com.example.mrschmitz.jobs.Activities.MapActivity;
 import com.example.mrschmitz.jobs.Activities.PostJobActivity;
 import com.example.mrschmitz.jobs.Activities.ProfileActivity;
@@ -39,7 +40,7 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ic_search:
-                        Intent intent2  = new Intent(context, SearchActivity.class);//ACTIVITY_NUM = 1
+                        Intent intent2  = new Intent(context, JobListActivity.class);//ACTIVITY_NUM = 1
                         context.startActivity(intent2);
                         break;
 

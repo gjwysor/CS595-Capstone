@@ -33,18 +33,19 @@ public class JobListActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
 
         listView = findViewById(R.id.list_view);
+
         ArrayList<String> theList = new ArrayList<>();
+
         theList.add("Clean my gutters");
         theList.add("Rotate my tires!");
         theList.add("PLZ help me move!");
         theList.add("Volunteer for cleaning the rivers");
         theList.add("Cut my grass.");
-        int counter = 0;
-        while(counter < theList.size()){
-            theList.add(theList.get(counter));
-        }
+
         ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
+
         listView.setAdapter(listAdapter);
+
         setupBottomNavigationView();
     }
 
