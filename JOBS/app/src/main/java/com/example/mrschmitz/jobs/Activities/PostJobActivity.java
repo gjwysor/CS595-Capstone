@@ -1,31 +1,31 @@
 package com.example.mrschmitz.jobs.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mrschmitz.jobs.R;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
+
 import static com.example.mrschmitz.jobs.R.layout.activity_post_job;
 
 public class PostJobActivity extends AppCompatActivity {
 
-    public static class jobOb{
+    public static class jobOb implements Serializable {
         private String jobTitle;
         private String jobSkills;
         private String jobDesc;
 
-        private jobOb(){
-            jobTitle = null;
-            jobSkills = null;
-            jobDesc = null;
-        }
+        public jobOb(){}
 
-        private jobOb(String title, String skills, String desc){
+        public jobOb(String title, String skills, String desc){
             jobTitle = title;
             jobSkills = skills;
             jobDesc = desc;
@@ -41,6 +41,18 @@ public class PostJobActivity extends AppCompatActivity {
 
         public String getDesc(){
             return jobDesc;
+        }
+
+        public void setTitle(String title){
+            jobTitle = title;
+        }
+
+        public void setSkills(String skills){
+            jobSkills = skills;
+        }
+
+        public void setDesc(String desc){
+            jobDesc = desc;
         }
     }
 
@@ -66,5 +78,10 @@ public class PostJobActivity extends AppCompatActivity {
         jobOb refJob = new jobOb(title.getText().toString(), skills.getText().toString(), desc.getText().toString());
 
         myRef.child("Jobs").push().setValue(refJob);
+
+        Context context = getApplicationContext();
+
+        Toast.makeText(context, "Job Posted!",
+                Toast.LENGTH_SHORT).show();
     }
 }
