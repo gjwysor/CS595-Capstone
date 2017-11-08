@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.mrschmitz.jobs"
         minSdkVersion 24
@@ -31,7 +31,11 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.google.firebase:firebase-core:11.4.2'
+<<<<<<< HEAD
+    compile 'com.google.firebase:firebase-auth:11.4.2'
+=======
     compile 'com.google.firebase:firebase-auth:10.0.1'
+>>>>>>> 6122db3ab2316c1029f305e52dfd52977ce63202
     compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.firebaseui:firebase-ui-auth:3.1.0'
     compile 'com.facebook.android:facebook-login:4.27.0'
@@ -42,6 +46,12 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //Design Library for Coordinator layout and toolbars
+    compile 'com.android.support:design:26.1.0'
+
+    //Bottom Navigation View Library
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
 }
 
 
