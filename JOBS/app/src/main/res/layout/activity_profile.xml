@@ -1,228 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.example.mrschmitz.jobs.Activities.HomeActivity">
-
-<RelativeLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100"
+    tools:context="com.example.mrschmitz.jobs.Activities.ProfileActivity">
 
-    <!--top toolbar-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/home_relativeLayout1" />
-
-    <include layout="@layout/layout_top_tabs"/>
-
-    <!--Middle Section-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/home_relativeLayout2"
-        android:layout_below="@id/home_relativeLayout1"/>
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_grey_100"
-        tools:context="com.example.mrschmitz.jobs.Activities.ProfileActivity">
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:id="@+id/avatar"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:av_border_color="@color/md_grey_300"
+                app:av_border_width="2dp"
+                app:av_text_size_percentage="35"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatar"
+                tools:text="User Name" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:id="@+id/bio_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bio"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="General maintenance, cleaning, plumbing, electrical, carpentry, masonry and renovations" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="8dp"
-            android:orientation="vertical">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <agency.tango.android.avatarview.views.AvatarView
-                    android:id="@+id/avatar"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    app:av_border_color="@color/md_grey_300"
-                    app:av_border_width="2dp"
-                    app:av_text_size_percentage="35"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/avatar"
-                    tools:text="User Name" />
-
-            </android.support.constraint.ConstraintLayout>
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:clipToPadding="false">
 
             <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
+                android:id="@+id/previous_jobs_card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
-                    android:id="@+id/bio_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView21"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Bio"
+                        android:gravity="center"
+                        android:text="Previous Jobs"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                     <TextView
-                        android:id="@+id/bio"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/previous_jobs"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="General maintenance, cleaning, plumbing, electrical, carpentry, masonry and renovations" />
-
+                        android:gravity="center"
+                        android:text="7"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView
+                android:id="@+id/jobs_in_progress_card"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:clipToPadding="false">
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/previous_jobs_card"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/textView23"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Jobs In Progress"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                        <TextView
-                            android:id="@+id/textView21"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Previous Jobs"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    <TextView
+                        android:id="@+id/jobs_in_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/previous_jobs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="7"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/average_rating_card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/jobs_in_progress_card"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/textView24"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Average Rating"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                        <TextView
-                            android:id="@+id/textView23"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Jobs In Progress"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                        <TextView
-                            android:id="@+id/jobs_in_progress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="2"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/average_rating_card"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/average_rating"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:id="@+id/textView24"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Average Rating"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                        <TextView
-                            android:id="@+id/average_rating"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="4.7"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="4.7"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
-    </ScrollView>
-
-    <include layout="@layout/layout_center_viewpager"/>
-
-    <!--Bottom Navigation-->
-    <include layout="@layout/layout_bottom_navigation_view"/>
-</RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+        <Button		
+            android:id="@+id/post_job_button"		
+            android:layout_width="match_parent"		
+            android:layout_height="wrap_content"		
+            android:onClick="goToPost"		
+            android:text="Post A Job"		
+            android:visibility="visible" />
+    </LinearLayout>
+</ScrollView>

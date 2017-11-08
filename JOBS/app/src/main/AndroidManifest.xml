@@ -42,12 +42,7 @@
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.PostJobActivity" />
         <activity android:name=".Activities.ReviewActivity" />
-<<<<<<< HEAD
-        <activity android:name=".Activities.HomeActivity" />
-        <activity android:name=".Activities.SearchActivity" />
-=======
         <activity android:name=".Activities.ViewJobDetailsActivity" />
->>>>>>> 6122db3ab2316c1029f305e52dfd52977ce63202
     </application>
 
 </manifest>
