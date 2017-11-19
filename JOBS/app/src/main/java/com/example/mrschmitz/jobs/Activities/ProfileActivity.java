@@ -1,4 +1,4 @@
-package com.example.mrschmitz.jobs.Activities;
+package com.example.mrschmitz.jobs.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,11 +16,21 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.mrschmitz.jobs.R;
+import com.example.mrschmitz.jobs.misc.Constants;
+import com.example.mrschmitz.jobs.misc.Utils;
+import com.example.mrschmitz.jobs.pojos.Review;
+import com.example.mrschmitz.jobs.pojos.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.DecimalFormat;
 
 import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
@@ -28,6 +38,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private static final String NO_BIO = "¯\\_(ツ)_/¯";
 
     @BindView(android.R.id.content)
     View rootView;
@@ -45,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView previousJobsTextView;
 
     @BindView(R.id.jobs_in_progress)
-    TextView jobsInProgressTextView;
+    TextView inProgressJobsTextView;
 
     @BindView(R.id.average_rating)
     TextView averageRatingTextView;
@@ -56,10 +68,79 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
-        Utils.loadProfileImage(this, avatarView);
+        loadAvatarAndNameAndBio();
+        loadJobsCount(previousJobsTextView, true);
+        loadJobsCount(inProgressJobsTextView, false);
+        loadAverageRating();
+    }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        usernameTextView.setText(user.getDisplayName());
+    private void loadAvatarAndNameAndBio() {
+        Utils.loadProfileImage(this, avatarView);
+        Utils.getCurrentUser(new Utils.GetUserListener() {
+            @Override
+            public void onSuccess(User user) {
+                usernameTextView.setText(user.getName());
+
+                String bio = user.getBio();
+                bioTextView.setText(StringUtils.isBlank(bio) ? NO_BIO : bio);
+            }
+
+            @Override
+            public void onFailed() {
+                Toast.makeText(ProfileActivity.this, "Error loading user", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void loadJobsCount(final TextView textView, boolean finished) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance().collection(Constants.JOBS)
+                .whereEqualTo("workerUid", uid)
+                .whereEqualTo("finished", finished)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String count = task.isSuccessful() ? Integer.toString(task.getResult().size()) : "ERROR";
+                        textView.setText(count);
+                    }
+                });
+    }
+
+    private void loadAverageRating() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore.getInstance().collection(Constants.REVIEWS)
+                .whereEqualTo("reviewedUid", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String averageRating;
+                        if (task.isSuccessful()) {
+                            int numRatings = task.getResult().size();
+                            if (numRatings > 0) {
+                                int ratingSum = 0;
+                                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                                    Review review = documentSnapshot.toObject(Review.class);
+                                    ratingSum += review.getRating();
+                                }
+
+                                DecimalFormat decimalFormat = new DecimalFormat();
+                                decimalFormat.setMaximumFractionDigits(1);
+                                averageRating = decimalFormat.format((double) ratingSum / numRatings);
+                            } else {
+                                averageRating = "-";
+                            }
+
+                        } else {
+                            averageRating = "ERROR";
+                        }
+
+                        averageRatingTextView.setText(averageRating);
+                    }
+                });
     }
 
     @Override
@@ -132,8 +213,9 @@ public class ProfileActivity extends AppCompatActivity {
                 .input("Some info about you...", bioTextView.getText(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        boolean inputIsEmpty = input.toString().trim().isEmpty();
-                        bioTextView.setText(inputIsEmpty ? "¯\\_(ツ)_/¯" : input);
+                        bioTextView.setText(StringUtils.isBlank(input) ? NO_BIO : input);
+
+                        // TODO update bio in database
                     }
                 }).show();
     }
@@ -153,7 +235,7 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(ProfileActivity.this, ReviewActivity.class));
     }
     
-     @OnClick(R.id.post_job_button)		
+    @OnClick(R.id.post_job_button)
     public void goToPost() {		
         startActivity(new Intent(ProfileActivity.this, PostJobActivity.class));		
     }
