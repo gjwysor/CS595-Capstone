@@ -114,7 +114,7 @@ public class JobListActivity extends AppCompatActivity {
     }
 
     public void backgoogle(View view){
-        Intent intent = new Intent(JobListActivity.this, MapActivity.class);
+        Intent intent = new Intent(JobListActivity.this, MapsActivity.class);
         startActivity(intent);
     }
 
