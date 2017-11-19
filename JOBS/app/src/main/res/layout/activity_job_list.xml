@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mrschmitz.jobs.activities.JobListActivity">
+    tools:context="com.example.mrschmitz.jobs.Activities.JobListActivity">
 
     <ListView
         android:id="@+id/viewJobs"

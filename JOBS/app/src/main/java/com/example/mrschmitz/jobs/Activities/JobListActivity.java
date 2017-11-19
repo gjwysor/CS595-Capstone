@@ -1,4 +1,4 @@
-package com.example.mrschmitz.jobs.activities;
+package com.example.mrschmitz.jobs.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;

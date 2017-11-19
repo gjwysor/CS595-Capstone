@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_grey_100"
-    tools:context="com.example.mrschmitz.jobs.activities.ReviewActivity">
+    tools:context="com.example.mrschmitz.jobs.Activities.ReviewActivity">
 
     <agency.tango.android.avatarview.views.AvatarView
         android:id="@+id/avatar"

@@ -1,4 +1,4 @@
-package com.example.mrschmitz.jobs.activities;
+package com.example.mrschmitz.jobs.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;

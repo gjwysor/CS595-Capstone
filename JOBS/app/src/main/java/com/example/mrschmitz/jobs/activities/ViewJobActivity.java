@@ -1,4 +1,4 @@
-package com.example.mrschmitz.jobs.activities;
+package com.example.mrschmitz.jobs.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
