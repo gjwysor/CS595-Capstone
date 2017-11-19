@@ -65,7 +65,7 @@ public class JobListActivity extends AppCompatActivity {
 
     @OnClick(R.id.back2google)
     public void back2google(View view){
-        startActivity(new Intent(JobListActivity.this, MapActivity.class));
+        startActivity(new Intent(JobListActivity.this, MapsActivity.class));
     }
 
 }

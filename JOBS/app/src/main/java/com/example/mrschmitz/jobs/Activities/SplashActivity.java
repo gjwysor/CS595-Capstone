@@ -135,7 +135,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startSignedInActivity() {
-        startActivity(new Intent(this, MapActivity.class));
+        startActivity(new Intent(this, MapsActivity.class));
     }
 
     @MainThread
