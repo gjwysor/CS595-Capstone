@@ -1,121 +1,71 @@
-package com.example.mrschmitz.jobs.Activities;
+package com.example.mrschmitz.jobs.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mrschmitz.jobs.R;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.mrschmitz.jobs.adapters.JobAdapter;
+import com.example.mrschmitz.jobs.misc.Constants;
+import com.example.mrschmitz.jobs.pojos.Job;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class JobListActivity extends AppCompatActivity {
-    ArrayList<String> jobList;
-    DatabaseReference myRef;
-    String[] jobTitles;
-    ChildEventListener jobListener;
+
+    @BindView(R.id.viewJobs)
     ListView listView;
-    ArrayAdapter adapter;
-    AdapterView.OnItemClickListener onClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_list);
+        ButterKnife.bind(this);
 
-        jobList = new ArrayList<>();
-        jobTitles = new String[jobList.size()];
-
-        myRef = FirebaseDatabase.getInstance().getReference().child("Jobs");
-
-        adapter = new ArrayAdapter<>(this,
-                R.layout.list_item, jobList);
-
-        listView = findViewById(R.id.viewJobs);
+        final JobAdapter adapter = new JobAdapter(this, new ArrayList<Job>());
         listView.setAdapter(adapter);
-
-        onClick = new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String sendMe = (String) adapter.getItem(position);
-                Intent intent = new Intent(view.getContext(), ViewJobDetailsActivity.class);
-                intent.putExtra("getMe", sendMe);
+                Intent intent = new Intent(view.getContext(), ViewJobActivity.class);
+
+                Job job = adapter.getItem(position);
+                intent.putExtra("job", job);
                 startActivity(intent);
-
             }
-        };
+        });
 
-        listView.setOnItemClickListener(onClick);
-
-        jobListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                // A new job has been added, add it to the displayed list
-                PostJobActivity.jobOb job = dataSnapshot.getValue(PostJobActivity.jobOb.class);
-
-                adapter.add(job.getTitle());
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                // A job has changed, use the key to determine if we are displaying this
-                // job and if so displayed the changed comment.
-                PostJobActivity.jobOb job = dataSnapshot.getValue(PostJobActivity.jobOb.class);
-                String jobKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // A job has changed, use the key to determine if we are displaying this
-                // job and if so remove it.
-                PostJobActivity.jobOb job = dataSnapshot.getValue(PostJobActivity.jobOb.class);
-                String jobKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                // A job has changed position, use the key to determine if we are
-                // displaying this job and if so move it.
-                PostJobActivity.jobOb job = dataSnapshot.getValue(PostJobActivity.jobOb.class);
-                String jobKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Context toastContext = getApplicationContext();
-
-                Toast.makeText(toastContext, "Failed to load Jobs.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        myRef.addChildEventListener(jobListener);
-
+        FirebaseFirestore.getInstance()
+                .collection(Constants.JOBS)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                            if (documentSnapshot.exists()) {
+                                adapter.add(documentSnapshot.toObject(Job.class));
+                            }
+                        }
+                    }
+                });
     }
 
-    public void backgoogle(View view){
-        Intent intent = new Intent(JobListActivity.this, MapActivity.class);
-        startActivity(intent);
+    @OnClick(R.id.back2google)
+    public void back2google(View view){
+        startActivity(new Intent(JobListActivity.this, MapActivity.class));
     }
 
 }

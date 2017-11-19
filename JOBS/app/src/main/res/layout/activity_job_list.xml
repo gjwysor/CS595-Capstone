@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mrschmitz.jobs.Activities.JobListActivity">
+    tools:context="com.example.mrschmitz.jobs.activities.JobListActivity">
 
     <ListView
         android:id="@+id/viewJobs"
@@ -20,14 +20,12 @@
         android:id="@+id/back2google"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Back"
-        android:onClick="backgoogle"
-        tools:layout_editor_absoluteY="2dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
 
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewJobs"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/viewJobs" />
 </android.support.constraint.ConstraintLayout>
 

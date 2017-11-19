@@ -1,4 +1,4 @@
-package com.example.mrschmitz.jobs.Activities;
+package com.example.mrschmitz.jobs.misc;
 
 import android.content.Context;
 
