@@ -49,6 +49,7 @@
         <activity android:name=".Activities.PostJobActivity" />
         <activity android:name=".Activities.ReviewActivity" />
         <activity android:name=".Activities.ViewJobActivity" />
+		<activity android:name=".Activities.ViewJobDetailsActivity" />
 		<activity		
             android:name=".Activities.MapsActivity"		
             android:label="@string/title_activity_maps"></activity>
