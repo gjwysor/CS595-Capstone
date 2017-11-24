@@ -3,14 +3,21 @@ package com.example.mrschmitz.jobs.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mrschmitz.jobs.Activities.Utilities.BottomNavigationViewHelper;
+
 import com.example.mrschmitz.jobs.R;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
+
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.io.Serializable;
 
@@ -57,10 +64,19 @@ public class PostJobActivity extends AppCompatActivity {
         }
     }
 
+    private static final String TAG = "PostJobActivity";
+    private static final int ACTIVITY_NUM = 2;
+
+    private Context mContext = PostJobActivity.this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(activity_post_job);
+        setContentView(R.layout.activity_post_job);
+
+        Log.d(TAG, "onCreate: starting.");
+
+        setupBottomNavigationView();
     }
 
 
@@ -69,6 +85,16 @@ public class PostJobActivity extends AppCompatActivity {
         startActivity(new Intent(PostJobActivity.this, ProfileActivity.class));
     }
 
+
+    private void setupBottomNavigationView(){
+        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
+        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+    }
 
     public void postJob(View view){
         // Write a message to the database

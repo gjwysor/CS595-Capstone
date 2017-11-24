@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListAdapter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mrschmitz.jobs.Activities.Utilities.BottomNavigationViewHelper;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.example.mrschmitz.jobs.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +28,11 @@ import java.util.ArrayList;
 
 
 public class JobListActivity extends AppCompatActivity {
+    private static final String TAG = "JobListActivity";
+    private static final int ACTIVITY_NUM = 1;
+
+    private Context mContext = JobListActivity.this;
+
     ArrayList<String> jobList;
     DatabaseReference myRef;
     String[] jobTitles;
@@ -43,8 +54,10 @@ public class JobListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this,
                 R.layout.list_item, jobList);
 
-        listView = findViewById(R.id.viewJobs);
+        listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+
+        setupBottomNavigationView();
 
         onClick = new AdapterView.OnItemClickListener() {
 
@@ -118,4 +131,15 @@ public class JobListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** BottomNavigationView setup*/
+
+    private void setupBottomNavigationView(){
+        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
+        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+    }
 }
