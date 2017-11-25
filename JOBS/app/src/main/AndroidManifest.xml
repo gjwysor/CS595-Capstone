@@ -53,6 +53,7 @@
         <activity android:name=".Activities.HomeActivity" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.ViewJobDetailsActivity" />
+        <activity android:name=".Activities.ViewJobActivity" />
     </application>
 
 </manifest>
