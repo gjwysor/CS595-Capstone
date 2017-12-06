@@ -1,97 +1,134 @@
 package com.example.mrschmitz.jobs.Activities;
 
-import android.content.Context;
-import android.util.Log;
-import com.example.mrschmitz.jobs.Activities.Utilities.BottomNavigationViewHelper;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.mrschmitz.jobs.R;
+import com.example.mrschmitz.jobs.adapters.ReviewAdapter;
+import com.example.mrschmitz.jobs.database.Reviews;
+import com.example.mrschmitz.jobs.database.Users;
 import com.example.mrschmitz.jobs.misc.Constants;
 import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Review;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.mrschmitz.jobs.pojos.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.example.mrschmitz.jobs.misc.Utils;
-import agency.tango.android.avatarview.views.AvatarView;
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProfileActivity";
-    private static final int ACTIVITY_NUM = 4;
-    private Context mContext = ReviewActivity.this;
+    @BindView(R.id.reviews)
+    ListView reviewsListView;
 
-    @BindView(R.id.avatar)
-    AvatarView avatarView;
+    @BindView(R.id.writeReview)
+    FloatingActionButton writeReviewButton;
 
-    @BindView(R.id.username)
-    TextView usernameTextView;
-
-    @BindView(R.id.ratingBar)
-    RatingBar ratingBar;
-
-    @BindView(R.id.review)
-    EditText reviewEditText;
+    private User reviewedUser, currentUser;
+    private ReviewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         ButterKnife.bind(this);
-        Log.d(TAG, "onCreate: starting.");
-        setupBottomNavigationView();
 
-        Utils.loadProfileImage(this, avatarView);
+        Users.loadCurrentUser(user -> {
+            currentUser = user;
+            reviewedUser = Parcels.unwrap(getIntent().getParcelableExtra(Constants.USERS));
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            usernameTextView.setText(user.getDisplayName());
-        }
-
-        // Force ratings of one star or more
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-
-            @Override public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if(rating < 1.0f) {
-                    ratingBar.setRating(1.0f);
-                }
-            }
+            setTitle(reviewedUser.getName());
+            showHideWriteReviewButton();
+            setupReviewsListView();
         });
     }
 
-    @OnClick(R.id.submit)
-    public void submit() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Review review = new Review(uid,
-                null, //TODO pass in the user that we are reviewing and save to database
-                ratingBar.getNumStars(),
-                reviewEditText.getText().toString());
+    private void setupReviewsListView() {
+        adapter = new ReviewAdapter(this, new ArrayList<>());
+        reviewsListView.setAdapter(adapter);
+        reviewsListView.setEmptyView(findViewById(android.R.id.empty));
+        reviewsListView.setOnItemClickListener((parent, view, position, id) -> {
+            Review review = adapter.getItem(position);
+            Utils.viewUserProfile(this, review.getReviewerUid());
+        });
 
-        FirebaseFirestore.getInstance()
-                .collection(Constants.REVIEWS)
-                .add(review);
-        finish();
+        Reviews.loadReviews(reviewedUser, reviews -> adapter.addAll(reviews));
     }
 
-    private void setupBottomNavigationView(){
-        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
-        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
-        Menu menu = bottomNavigationViewEx.getMenu();
-        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
-        menuItem.setChecked(true);
+    private void showHideWriteReviewButton() {
+        boolean isDifferentUser = true;//!reviewedUser.getUniqueId().equals(currentUser.getUniqueId());
+        boolean userWorkedForCurrentUser = true;
+        boolean currentUserWorkedForUser = true;
+        boolean workedForEachOther = userWorkedForCurrentUser || currentUserWorkedForUser;
+        boolean hasNotWrittenReview = true;
+        boolean canWriteReview = isDifferentUser && hasNotWrittenReview && workedForEachOther;
+        if (canWriteReview) {
+            writeReviewButton.show();
+
+        } else {
+            writeReviewButton.hide();
+        }
+    }
+
+    private void userWorkedForCurrentUser() {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.JOBS)
+                .whereEqualTo("posterUid", currentUser.getUniqueId())
+                .whereEqualTo("workerUid", reviewedUser.getUniqueId())
+                .get()
+                .addOnSuccessListener(documentSnapshots -> {
+                    adapter.addAll(documentSnapshots.toObjects(Review.class));
+                });
+    }
+
+    private void currentUserWorkedForUser() {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.JOBS)
+                .whereEqualTo("posterUid", reviewedUser.getUniqueId())
+                .whereEqualTo("workerUid", currentUser.getUniqueId())
+                .get()
+                .addOnSuccessListener(documentSnapshots -> {
+                    adapter.addAll(documentSnapshots.toObjects(Review.class));
+                });
+    }
+
+    @OnClick(R.id.writeReview)
+    public void writeReview() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_review, null);
+        final RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+        final EditText reviewEditText = view.findViewById(R.id.review);
+
+        ratingBar.setOnRatingBarChangeListener((ratingBar1, rating, fromUser) -> {
+            float minRating = 1.0f;
+            ratingBar.setRating(Math.max(minRating, rating));
+        });
+
+        new MaterialDialog.Builder(this)
+                .title("Review")
+                .customView(view, false)
+                .positiveText("Submit")
+                .onPositive((dialog, which) -> {
+                    Review review = new Review(
+                            reviewedUser.getUniqueId(),
+                            currentUser.getUniqueId(),
+                            Math.round(ratingBar.getRating()),
+                            reviewEditText.getText().toString());
+
+                    adapter.add(review);
+                    Reviews.writeReview(review);
+                })
+                .show();
     }
 
 }

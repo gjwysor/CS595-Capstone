@@ -7,32 +7,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.mrschmitz.jobs.R;
 import com.example.mrschmitz.jobs.database.Users;
 import com.example.mrschmitz.jobs.misc.Utils;
-import com.example.mrschmitz.jobs.pojos.Job;
+import com.example.mrschmitz.jobs.pojos.Review;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import agency.tango.android.avatarview.views.AvatarView;
 
 /**
- * Created by Noah on 11/8/2017.
+ * Created by Noah on 11/30/2017.
  */
-
-public class JobAdapter extends ArrayAdapter<Job> {
+public class ReviewAdapter extends ArrayAdapter<Review> {
 
     private static class ViewHolder {
         AvatarView avatarView;
-        TextView titleTextView;
-        TextView amountTextView;
+        TextView reviewTextView;
+        RatingBar ratingBar;
     }
 
-    public JobAdapter(Context context, ArrayList<Job> jobs) {
-        super(context, R.layout.list_item_job, jobs);
+    public ReviewAdapter(Context context, ArrayList<Review> reviews) {
+        super(context, R.layout.list_item_review, reviews);
     }
 
     @NonNull
@@ -45,21 +44,20 @@ public class JobAdapter extends ArrayAdapter<Job> {
         } else {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item_job, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_review, parent, false);
             convertView.setTag(viewHolder);
 
             viewHolder.avatarView = convertView.findViewById(R.id.avatar);
-            viewHolder.titleTextView = convertView.findViewById(R.id.title);
-            viewHolder.amountTextView = convertView.findViewById(R.id.amount);
+            viewHolder.reviewTextView = convertView.findViewById(R.id.review);
+            viewHolder.ratingBar = convertView.findViewById(R.id.rating);
         }
 
-        final Job job = getItem(position);
-        Users.loadUser(job.getPosterUid(), user -> {
+        final Review review = getItem(position);
+        Users.loadUser(review.getReviewerUid(), user -> {
             Utils.loadProfileImage(getContext(), user, viewHolder.avatarView);
+            viewHolder.reviewTextView.setText(review.getReview());
+            viewHolder.ratingBar.setRating(review.getRating());
         });
-        viewHolder.titleTextView.setText(job.getTitle());
-        String paymentAmount = NumberFormat.getCurrencyInstance().format(job.getPaymentAmount());
-        viewHolder.amountTextView.setText(paymentAmount);
 
         return convertView;
     }

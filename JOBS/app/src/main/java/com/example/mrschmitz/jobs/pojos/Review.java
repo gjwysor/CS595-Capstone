@@ -1,6 +1,6 @@
 package com.example.mrschmitz.jobs.pojos;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,50 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-public class Review implements Serializable {
+@AllArgsConstructor
+@Parcel
+public class Review {
 
-    private String reviewedUid;
-    private String reviewerUid;
-    private int rating;
-    private String review;
-
-    public Review(String reviewed, String reviewer, int rate, String newReview){
-        reviewedUid = reviewed;
-        reviewerUid = reviewer;
-        rating = rate;
-        review = newReview;
-    }
-
-    public String getReviewed(){
-        return reviewedUid;
-    }
-
-    public String getReviewer(){
-        return reviewerUid;
-    }
-
-    public int getRating(){
-        return rating;
-    }
-
-    public String getReview(){
-        return review;
-    }
-
-    public void setReviewed(String reviewedID){
-        reviewedUid = reviewedID;
-    }
-
-    public void setReviewer(String reviewerID){
-        reviewerUid = reviewerID;
-    }
-
-    public void setRating(int rate){
-        rating = rate;
-    }
-
-    public void setReview(String newReview){
-        review = newReview;
-    }
+    String reviewedUid;
+    String reviewerUid;
+    int rating;
+    String review;
 
 }

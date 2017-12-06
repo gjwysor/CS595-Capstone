@@ -1,44 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.mrschmitz.jobs.Activities.ViewJobActivity">
 
-    <Button
-        android:id="@+id/apply_for_job"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apply for Job"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/job_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/md_grey_200"
+            app:indicatorMarginVertical="8dp"
+            app:fillColor="@color/colorPrimary"
+            app:pageColor="@android:color/transparent"
+            app:radius="4dp"
+            app:autoPlay="false"
+            app:strokeColor="@color/md_white_1000"
+            app:strokeWidth="1dp"/>
 
-    <TextView
-        android:id="@+id/job_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/job_title" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
-    <!--Bottom Navigation-->
-    <include layout="@layout/layout_bottom_navigation_view"/>
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Job Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/job_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="Job Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:paddingBottom="16dp" />
+
+            <Button
+                android:id="@+id/apply_for_job"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Apply" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

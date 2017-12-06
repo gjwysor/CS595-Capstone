@@ -1,109 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mrschmitz.jobs.Activities.PostJobActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.mrschmitz.jobs.Activities.PostJobActivity"
+    android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
 
-        <!--top toolbar-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/home_relativeLayout1" />
-
-        <include layout="@layout/layout_top_tabs"/>
-
-        <!--Middle Section-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/home_relativeLayout2"
-            android:layout_below="@id/home_relativeLayout1"/>
-
-        <RelativeLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/home_relativeLayout1">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
+            android:fitsSystemWindows="true">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="84dp"
-                android:text="Job" />
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/md_grey_200"
+                app:indicatorMarginVertical="8dp"
+                app:fillColor="@color/colorPrimary"
+                app:pageColor="@android:color/transparent"
+                app:radius="4dp"
+                app:autoPlay="false"
+                app:strokeColor="@color/md_white_1000"
+                app:strokeWidth="1dp"/>
 
-            <EditText
-                android:id="@+id/job_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textView4"
-                android:layout_toEndOf="@+id/textView6"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Job Title" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView4"
-                android:layout_below="@+id/job_title"
-                android:layout_marginTop="41dp"
-                android:text="Skills" />
+    </android.support.design.widget.AppBarLayout>
 
-            <EditText
-                android:id="@+id/skills"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/job_title"
-                android:layout_alignTop="@+id/textView5"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Painting, Plumbing ..." />
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView5"
-                android:layout_below="@+id/skills"
-                android:layout_marginTop="36dp"
-                android:text="Description" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/skills"
-                android:layout_alignStart="@+id/skills"
-                android:layout_alignTop="@+id/textView6"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Describe job" />
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/job_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Job Title"
+                    android:inputType="textCapWords" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:hint="Description" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:hint="Location"
+                    android:editable="false"
+                    android:focusable="false"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:paddingBottom="8dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/paymentAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="$ USD"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/paymentType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/payment_types"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined" />
+
+
+                <Spinner
+                    android:id="@+id/paymentMethod"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/payment_methods"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/post_job"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Post Job"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:layout_gravity="right"
+                android:text="Post" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <include layout="@layout/layout_center_viewpager"/>
+    </android.support.v4.widget.NestedScrollView>
 
-        <!--Bottom Navigation-->
-        <include layout="@layout/layout_bottom_navigation_view"/>
-    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_photo_camera_black_24dp"
+        android:tint="@color/md_white_1000"
+        android:clickable="true"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,6 +1,6 @@
 package com.example.mrschmitz.jobs.pojos;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,47 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+@Parcel
+public class User {
 
-    private String uniqueId;
-    private String name;
-    private String photoUrl;
-    private String bio;
+    String uniqueId;
+    String name;
+    String photoUrl;
+    String bio;
+    boolean admin;
 
-    public User(String uid, String uname){
-        uniqueId = uid;
-        name = uname;
-    }
-
-    public String getUid(){
-        return uniqueId;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public String getPhoto(){
-        return photoUrl;
-    }
-
-    public String getBio(){
-        return bio;
-    }
-
-    public void setUid(String uid){
-        uniqueId = uid;
-    }
-
-    public void setName(String userName){
-        name = userName;
-    }
-
-    public void setPhoto(String purl){
-        photoUrl = purl;
-    }
-
-    public void setBio(String biostring){
-        bio = biostring;
-    }
 }

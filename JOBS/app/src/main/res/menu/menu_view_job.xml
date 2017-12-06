@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/flagJob"
+        android:icon="@drawable/ic_flag_black_24dp"
+        app:showAsAction="never"
+        android:title="Flag Job"/>
+
+    <item
+        android:id="@+id/unflagJob"
+        android:icon="@drawable/ic_flag_black_24dp"
+        app:showAsAction="never"
+        android:title="Unflag Job"/>
+
+    <item
+        android:id="@+id/deleteJob"
+        android:icon="@drawable/ic_delete_black_24dp"
+        app:showAsAction="never"
+        android:title="Delete Job"/>
+
+</menu>

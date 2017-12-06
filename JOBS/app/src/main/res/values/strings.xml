@@ -23,5 +23,28 @@
     <string name="idp_token">IDP Token</string>
     <string name="idp_secret">IDP Secret</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_maps2">Map</string>
+
+    <string-array name="payment_types">
+        <item>Total</item>
+        <item>Hourly</item>
+    </string-array>
+
+    <string-array name="payment_methods">
+        <item>Cash</item>
+        <item>Paypal</item>
+        <item>Credit</item>
+    </string-array>
+
+    <string-array name="dummy_messages">
+        <item>Dummy</item>
+        <item>List</item>
+        <item>Of</item>
+        <item>Messages</item>
+    </string-array>
 
 </resources>

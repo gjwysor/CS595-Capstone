@@ -1,6 +1,8 @@
 package com.example.mrschmitz.jobs.pojos;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,68 +17,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Job implements Serializable {
+@Parcel
+public class Job {
 
-    private String jobTitle;
-    private String jobSkills;
-    private String jobDesc;
-    private String posterUid;
-    private String workerUid;
-    private boolean finished;
+    List<String> imageUrls;
+    String title;
+    double paymentAmount;
+    String paymentType;
+    String paymentMethod;
+    String description;
+    String address;
+    double latitude;
+    double longitude;
+    String posterUid;
+    String workerUid;
+    boolean finished;
+    boolean flagged;
 
-    public Job(String postID, String title, String skills, String desc, boolean status){
-        posterUid = postID;
-        jobTitle = title;
-        jobSkills = skills;
-        jobDesc = desc;
-        finished = status;
-    }
-
-    public String getPoster(){
-        return posterUid;
-    }
-
-    public String getWorker(){
-        return workerUid;
-    }
-
-    public boolean getFinished(){
-        return finished;
-    }
-
-    public String getTitle(){
-        return jobTitle;
-    }
-
-    public String getSkills(){
-        return jobSkills;
-    }
-
-    public String getDesc(){
-        return jobDesc;
-    }
-
-    public void setTitle(String title){
-        jobTitle = title;
-    }
-
-    public void setSkills(String skills){
-        jobSkills = skills;
-    }
-
-    public void setDesc(String desc){
-        jobDesc = desc;
-    }
-
-    public void setPoster(String postKey){
-        posterUid = postKey;
-    }
-
-    public void getWorker(String workKey){
-        workerUid = workKey;
-    }
-
-    public void getFinished(boolean status){
-        finished = status;
-    }
 }
