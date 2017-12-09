@@ -24,18 +24,32 @@ public class Users {
     public static void saveCurrentUser() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
-            Uri photoUrl = firebaseUser.getPhotoUrl();
-            User user = User.builder()
-                    .uniqueId(firebaseUser.getUid())
-                    .name(firebaseUser.getDisplayName())
-                    .photoUrl(photoUrl == null ? null : photoUrl.toString())
-                    .admin(false)
-                    .build();
+            userExists(firebaseUser.getUid(), userExists -> {
+                if (!userExists) {
+                    Uri photoUrl = firebaseUser.getPhotoUrl();
+                    User user = User.builder()
+                            .uniqueId(firebaseUser.getUid())
+                            .name(firebaseUser.getDisplayName())
+                            .photoUrl(photoUrl == null ? null : photoUrl.toString())
+                            .admin(false)
+                            .build();
 
-            usersCollection()
-                    .document(firebaseUser.getUid())
-                    .set(user);
+                    usersCollection()
+                            .document(firebaseUser.getUid())
+                            .set(user);
+                }
+            });
         }
+    }
+
+    public static void userExists(String uid, OnSuccessListener<Boolean> listener) {
+        usersCollection()
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    boolean userExists = documentSnapshot.exists();
+                    listener.onSuccess(userExists);
+                });
     }
 
     public static void loadUser(String uid, OnSuccessListener<User> listener) {
@@ -57,6 +71,14 @@ public class Users {
         usersCollection()
                 .document(user.getUniqueId())
                 .set(user, SetOptions.merge());
+    }
+
+    public static boolean isDifferentUser(User userOne, User userTwo) {
+        return isDifferentUser(userOne.getUniqueId(), userTwo.getUniqueId());
+    }
+
+    public static boolean isDifferentUser(String uidOne, String uidTwo) {
+        return !uidOne.equals(uidTwo);
     }
 
 }

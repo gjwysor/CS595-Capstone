@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +14,9 @@ import com.example.mrschmitz.jobs.R;
 import com.example.mrschmitz.jobs.database.Jobs;
 import com.example.mrschmitz.jobs.database.Users;
 import com.example.mrschmitz.jobs.misc.Constants;
+import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Job;
+import com.example.mrschmitz.jobs.pojos.User;
 import com.synnapps.carouselview.CarouselView;
 
 import org.parceler.Parcels;
@@ -28,9 +31,13 @@ import butterknife.OnClick;
 public class ViewJobActivity extends AppCompatActivity {
 
     private Job job;
+    private User poster;
 
     @BindView(R.id.carouselView)
     CarouselView carouselView;
+
+    @BindView(R.id.job_poster)
+    TextView posterTextView;
 
     @BindView(R.id.job_title)
     TextView titleTextView;
@@ -44,6 +51,9 @@ public class ViewJobActivity extends AppCompatActivity {
     @BindView(R.id.payment)
     TextView paymentAmountTextView;
 
+    @BindView(R.id.apply_for_job)
+    Button applyForJobButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +63,12 @@ public class ViewJobActivity extends AppCompatActivity {
         job = Parcels.unwrap(getIntent().getParcelableExtra(Constants.JOBS));
 
         setupImages();
-        setupJobInfo();
+        setupApplyForJobButton();
+        Users.loadUser(job.getPosterUid(), user -> {
+            poster = user;
+            setupJobInfo();
+        });
+
     }
 
     private void setupImages() {
@@ -72,6 +87,7 @@ public class ViewJobActivity extends AppCompatActivity {
     }
 
     private void setupJobInfo() {
+        posterTextView.setText(poster.getName());
         titleTextView.setText(job.getTitle());
         descriptionTextView.setText(job.getDescription());
         locationTextView.setText(job.getAddress());
@@ -85,6 +101,13 @@ public class ViewJobActivity extends AppCompatActivity {
         payment += paidInCash ? " in cash" : " via " + job.getPaymentMethod();
 
         paymentAmountTextView.setText(payment);
+    }
+
+    private void setupApplyForJobButton() {
+        Jobs.canApplyForJob(job, canApplyForJob -> {
+            int visibility = canApplyForJob ? View.VISIBLE : View.GONE;
+            applyForJobButton.setVisibility(visibility);
+        });
     }
 
     @Override
@@ -101,8 +124,7 @@ public class ViewJobActivity extends AppCompatActivity {
             unflagJobMenuItem.setVisible(userIsAdmin);
 
             MenuItem deleteJobMenuItem = menu.findItem(R.id.deleteJob);
-            boolean userIsJobPoster = false; // TODO
-            deleteJobMenuItem.setVisible(userIsAdmin || userIsJobPoster);
+            Jobs.canDeleteJob(job, deleteJobMenuItem::setVisible);
         });
 
         return super.onCreateOptionsMenu(menu);
@@ -128,6 +150,11 @@ public class ViewJobActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.job_poster)
+    public void jobPoster(View view){
+        Utils.viewUserProfile(this, poster);
     }
 
     @OnClick(R.id.apply_for_job)

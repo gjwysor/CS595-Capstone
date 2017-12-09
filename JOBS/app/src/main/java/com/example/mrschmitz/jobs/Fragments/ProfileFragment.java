@@ -23,7 +23,6 @@ import com.example.mrschmitz.jobs.database.Users;
 import com.example.mrschmitz.jobs.misc.Constants;
 import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Job;
-import com.example.mrschmitz.jobs.pojos.Review;
 import com.example.mrschmitz.jobs.pojos.User;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +30,6 @@ import org.parceler.Parcels;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.OptionalDouble;
 
 import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
@@ -145,12 +143,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadAverageRating() {
-        Reviews.loadReviews(user, reviews -> {
-            OptionalDouble averageRating = reviews
-                    .stream()
-                    .mapToDouble(Review::getRating)
-                    .average();
-
+        Reviews.loadAverageRating(user, averageRating -> {
             if (averageRating.isPresent()) {
                 averageRatingTextView.setText(formatRating(averageRating.getAsDouble()));
             }

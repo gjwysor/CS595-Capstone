@@ -17,7 +17,6 @@ import com.example.mrschmitz.jobs.misc.Constants;
 import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Review;
 import com.example.mrschmitz.jobs.pojos.User;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.parceler.Parcels;
 
@@ -67,40 +66,14 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void showHideWriteReviewButton() {
-        boolean isDifferentUser = true;//!reviewedUser.getUniqueId().equals(currentUser.getUniqueId());
-        boolean userWorkedForCurrentUser = true;
-        boolean currentUserWorkedForUser = true;
-        boolean workedForEachOther = userWorkedForCurrentUser || currentUserWorkedForUser;
-        boolean hasNotWrittenReview = true;
-        boolean canWriteReview = isDifferentUser && hasNotWrittenReview && workedForEachOther;
-        if (canWriteReview) {
-            writeReviewButton.show();
+        Reviews.canWriteReview(currentUser, reviewedUser, canWriteReview -> {
+            if (canWriteReview) {
+                writeReviewButton.show();
 
-        } else {
-            writeReviewButton.hide();
-        }
-    }
-
-    private void userWorkedForCurrentUser() {
-        FirebaseFirestore.getInstance()
-                .collection(Constants.JOBS)
-                .whereEqualTo("posterUid", currentUser.getUniqueId())
-                .whereEqualTo("workerUid", reviewedUser.getUniqueId())
-                .get()
-                .addOnSuccessListener(documentSnapshots -> {
-                    adapter.addAll(documentSnapshots.toObjects(Review.class));
-                });
-    }
-
-    private void currentUserWorkedForUser() {
-        FirebaseFirestore.getInstance()
-                .collection(Constants.JOBS)
-                .whereEqualTo("posterUid", reviewedUser.getUniqueId())
-                .whereEqualTo("workerUid", currentUser.getUniqueId())
-                .get()
-                .addOnSuccessListener(documentSnapshots -> {
-                    adapter.addAll(documentSnapshots.toObjects(Review.class));
-                });
+            } else {
+                writeReviewButton.hide();
+            }
+        });
     }
 
     @OnClick(R.id.writeReview)
@@ -126,6 +99,7 @@ public class ReviewActivity extends AppCompatActivity {
                             reviewEditText.getText().toString());
 
                     adapter.add(review);
+                    writeReviewButton.hide();
                     Reviews.writeReview(review);
                 })
                 .show();
