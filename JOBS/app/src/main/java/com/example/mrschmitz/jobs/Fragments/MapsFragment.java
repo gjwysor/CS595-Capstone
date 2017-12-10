@@ -12,12 +12,14 @@ import com.example.mrschmitz.jobs.Activities.PostJobActivity;
 import com.example.mrschmitz.jobs.Activities.ViewJobActivity;
 import com.example.mrschmitz.jobs.R;
 import com.example.mrschmitz.jobs.database.Jobs;
+import com.example.mrschmitz.jobs.database.Users;
 import com.example.mrschmitz.jobs.misc.Constants;
 import com.example.mrschmitz.jobs.pojos.Job;
 import com.example.mrschmitz.jobs.pojos.User;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -112,7 +114,10 @@ public class MapsFragment extends CurrentLocationMapsFragment implements GoogleM
                 paymentAmount += "/hr";
             }
 
+            boolean isNotJobPoster = Users.isDifferentUser(user.getUniqueId(), job.getPosterUid());
+            float markerColor = isNotJobPoster ? BitmapDescriptorFactory.HUE_ORANGE : BitmapDescriptorFactory.HUE_RED;
             MarkerOptions markerOptions = new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
                     .position(position)
                     .title(job.getTitle())
                     .snippet(paymentAmount);

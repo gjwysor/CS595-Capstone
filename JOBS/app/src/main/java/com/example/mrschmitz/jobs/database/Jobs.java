@@ -66,6 +66,19 @@ public class Jobs {
                 });
     }
 
+    public static void canApplyForJob(Job job, OnSuccessListener<Boolean> listener) {
+        Users.loadCurrentUser(user -> {
+            boolean userIsNotPoster = Users.isDifferentUser(user.getUniqueId(), job.getPosterUid());
+            boolean jobIsOpen = job.getWorkerUid() == null;
+            boolean canApplyForJob = userIsNotPoster && jobIsOpen;
+            listener.onSuccess(canApplyForJob);
+        });
+    }
+
+    public static void applyForJob(Job job) {
+        // TODO
+    }
+
     public static void flagJob(Job job) {
         // TODO
     }
@@ -74,10 +87,41 @@ public class Jobs {
         // TODO
     }
 
+
+    public static void canDeleteJob(Job job, OnSuccessListener<Boolean> listener) {
+        Users.loadCurrentUser(user -> {
+            boolean userIsAdmin = user.isAdmin();
+            boolean userIsPoster = !Users.isDifferentUser(user.getUniqueId(), job.getPosterUid());
+            boolean jobIsOpen = job.getWorkerUid() == null;
+            boolean canDeleteJob = userIsAdmin || (userIsPoster && jobIsOpen);
+            listener.onSuccess(canDeleteJob);
+        });
+    }
+
     public static void deleteJob(Job job) {
         // TODO
     }
 
+    public static void workedForEachOther(User userOne, User userTwo, OnSuccessListener<Boolean> listener) {
+        workedForEmployer(userOne, userTwo, userOneWorkedForUserTwo -> {
+            workedForEmployer(userTwo, userOne, userTwoWorkedForUserOne -> {
+                boolean workedForEachOther = userOneWorkedForUserTwo || userTwoWorkedForUserOne;
+                listener.onSuccess(workedForEachOther);
+            });
+        });
+    }
+
+    public static void workedForEmployer(User worker, User employer, OnSuccessListener<Boolean> listener) {
+        jobsCollection()
+                .whereEqualTo("posterUid", employer.getUniqueId())
+                .whereEqualTo("workerUid", worker.getUniqueId())
+                .whereEqualTo("finished", true)
+                .get()
+                .addOnSuccessListener(documentSnapshots -> {
+                    boolean workedForEmployer = !documentSnapshots.isEmpty();
+                    listener.onSuccess(workedForEmployer);
+                });
+    }
 
     public static void postJob(Job job, List<Uri> images, OnCompleteListener<DocumentReference> listener) {
         uploadJobImages(images, downloadUrls -> {
