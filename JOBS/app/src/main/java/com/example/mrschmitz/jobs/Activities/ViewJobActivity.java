@@ -115,13 +115,11 @@ public class ViewJobActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_view_job, menu);
 
         Users.loadCurrentUser(user -> {
-            boolean userIsAdmin = user.isAdmin();
-
             MenuItem flagJobMenuItem = menu.findItem(R.id.flagJob);
-            flagJobMenuItem.setVisible(!userIsAdmin);
+            flagJobMenuItem.setVisible(!job.isFlagged());
 
             MenuItem unflagJobMenuItem = menu.findItem(R.id.unflagJob);
-            unflagJobMenuItem.setVisible(userIsAdmin);
+            unflagJobMenuItem.setVisible(user.isAdmin() && job.isFlagged());
 
             MenuItem deleteJobMenuItem = menu.findItem(R.id.deleteJob);
             Jobs.canDeleteJob(job, deleteJobMenuItem::setVisible);
@@ -136,11 +134,13 @@ public class ViewJobActivity extends AppCompatActivity {
             case R.id.flagJob:
                 Jobs.flagJob(job);
                 Toast.makeText(this, "Job flagged", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
 
             case R.id.unflagJob:
                 Jobs.unflagJob(job);
                 Toast.makeText(this, "Job unflagged", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
 
             case R.id.deleteJob:
@@ -161,6 +161,7 @@ public class ViewJobActivity extends AppCompatActivity {
     public void applyForJob(View view){
         Jobs.applyForJob(job);
         Toast.makeText(this, "Applied for Job!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 }

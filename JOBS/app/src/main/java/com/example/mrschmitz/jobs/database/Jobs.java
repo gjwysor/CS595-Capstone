@@ -3,12 +3,12 @@ package com.example.mrschmitz.jobs.database;
 import android.net.Uri;
 
 import com.example.mrschmitz.jobs.misc.Constants;
+import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Job;
 import com.example.mrschmitz.jobs.pojos.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -75,19 +75,6 @@ public class Jobs {
         });
     }
 
-    public static void applyForJob(Job job) {
-        // TODO
-    }
-
-    public static void flagJob(Job job) {
-        // TODO
-    }
-
-    public static void unflagJob(Job job) {
-        // TODO
-    }
-
-
     public static void canDeleteJob(Job job, OnSuccessListener<Boolean> listener) {
         Users.loadCurrentUser(user -> {
             boolean userIsAdmin = user.isAdmin();
@@ -98,12 +85,38 @@ public class Jobs {
         });
     }
 
-    public static void deleteJob(Job job) {
-        // TODO
+    public static void applyForJob(Job job) {
+        Users.loadCurrentUser(user -> {
+            job.setWorkerUid(user.getUniqueId());
+            updateJob(job);
+        });
+    }
+
+    public static void flagJob(Job job) {
+        job.setFlagged(true);
+        updateJob(job);
+    }
+
+    public static void unflagJob(Job job) {
+        job.setFlagged(false);
+        updateJob(job);
     }
 
     public static void finishJob(Job job) {
-        // TODO
+        job.setFinished(true);
+        updateJob(job);
+    }
+
+    private static void updateJob(Job job) {
+        jobsCollection()
+                .document(job.getUniqueId())
+                .set(job);
+    }
+
+    public static void deleteJob(Job job) {
+        jobsCollection()
+                .document(job.getUniqueId())
+                .delete();
     }
 
     public static void workedForEachOther(User userOne, User userTwo, OnSuccessListener<Boolean> listener) {
@@ -127,11 +140,15 @@ public class Jobs {
                 });
     }
 
-    public static void postJob(Job job, List<Uri> images, OnCompleteListener<DocumentReference> listener) {
+    public static void postJob(Job job, List<Uri> images, OnCompleteListener<Void> listener) {
         uploadJobImages(images, downloadUrls -> {
+            String uniqueId = Utils.getUniqueId();
+            job.setUniqueId(uniqueId);
             job.setImageUrls(downloadUrls);
+
             jobsCollection()
-                    .add(job)
+                    .document(uniqueId)
+                    .set(job)
                     .addOnCompleteListener(listener);
         });
     }

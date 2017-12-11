@@ -92,11 +92,12 @@ public class ReviewActivity extends AppCompatActivity {
                 .customView(view, false)
                 .positiveText("Submit")
                 .onPositive((dialog, which) -> {
-                    Review review = new Review(
-                            reviewedUser.getUniqueId(),
-                            currentUser.getUniqueId(),
-                            Math.round(ratingBar.getRating()),
-                            reviewEditText.getText().toString());
+                    Review review = Review.builder()
+                            .reviewedUid(reviewedUser.getUniqueId())
+                            .reviewerUid(currentUser.getUniqueId())
+                            .rating(Math.round(ratingBar.getRating()))
+                            .review(reviewEditText.getText().toString())
+                            .build();
 
                     adapter.add(review);
                     writeReviewButton.hide();

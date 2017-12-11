@@ -1,6 +1,7 @@
 package com.example.mrschmitz.jobs.database;
 
 import com.example.mrschmitz.jobs.misc.Constants;
+import com.example.mrschmitz.jobs.misc.Utils;
 import com.example.mrschmitz.jobs.pojos.Review;
 import com.example.mrschmitz.jobs.pojos.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,8 +42,11 @@ public class Reviews {
     }
 
     public static void writeReview(Review review) {
+        String uniqueId = Utils.getUniqueId();
+        review.setUniqueId(uniqueId);
         reviewsCollection()
-                .add(review);
+                .document(uniqueId)
+                .set(review);
     }
 
     public static void canWriteReview(User reviewerUser, User reviewedUser, OnSuccessListener<Boolean> listener) {
