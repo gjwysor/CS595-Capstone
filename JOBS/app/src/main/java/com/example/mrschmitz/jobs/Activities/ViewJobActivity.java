@@ -159,6 +159,7 @@ public class ViewJobActivity extends AppCompatActivity {
 
     @OnClick(R.id.apply_for_job)
     public void applyForJob(View view){
+        Jobs.applyForJob(job);
         Toast.makeText(this, "Applied for Job!", Toast.LENGTH_SHORT).show();
     }
 

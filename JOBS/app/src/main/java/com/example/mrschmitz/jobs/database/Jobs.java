@@ -102,6 +102,10 @@ public class Jobs {
         // TODO
     }
 
+    public static void finishJob(Job job) {
+        // TODO
+    }
+
     public static void workedForEachOther(User userOne, User userTwo, OnSuccessListener<Boolean> listener) {
         workedForEmployer(userOne, userTwo, userOneWorkedForUserTwo -> {
             workedForEmployer(userTwo, userOne, userTwoWorkedForUserOne -> {

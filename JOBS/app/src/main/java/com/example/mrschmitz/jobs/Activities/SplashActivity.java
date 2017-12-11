@@ -16,9 +16,9 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -35,36 +35,24 @@ public class SplashActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         int splashTimeout = 500;
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run(){
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                if (auth.getCurrentUser() != null) {
-                    startSignedInActivity();
-                    finish();
-                    return;
-                }
-
-                if (isGoogleMisconfigured()) {
-                    toast(R.string.google_label_missing_config);
-                }
-
-                if (isFacebookMisconfigured()) {
-                    toast(R.string.facebook_label_missing_config);
-                }
-
-                if (isTwitterMisconfigured()) {
-                    toast(R.string.twitter_label_missing_config);
-                }
-
-                startActivityForResult(
-                        AuthUI.getInstance().createSignInIntentBuilder()
-                                .setTheme(getSelectedTheme())
-                                .setLogo(getSelectedLogo())
-                                .setAvailableProviders(getSelectedProviders())
-                                .build(),
-                        RC_SIGN_IN);
+        new Handler().postDelayed(() -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
+                startSignedInActivity();
+                return;
             }
+
+            if (isGoogleMisconfigured()) {
+                toast(R.string.google_label_missing_config);
+            }
+
+            startActivityForResult(
+                    AuthUI.getInstance().createSignInIntentBuilder()
+                            .setTheme(getSelectedTheme())
+                            .setLogo(getSelectedLogo())
+                            .setAvailableProviders(getSelectedProviders())
+                            .build(),
+                    RC_SIGN_IN);
         }, splashTimeout);
     }
 
@@ -85,9 +73,20 @@ public class SplashActivity extends AppCompatActivity {
 
         // Successfully signed in
         if (resultCode == RESULT_OK) {
-            Users.saveCurrentUser();
-            startSignedInActivity();
-            finish();
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (firebaseUser != null) {
+                if (firebaseUser.isEmailVerified()) {
+                    Users.saveCurrentUser();
+                    startSignedInActivity();
+
+                } else {
+                    firebaseUser.sendEmailVerification();
+                    Toast.makeText(this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                    FirebaseAuth.getInstance().signOut();
+                    recreate();
+                }
+            }
+
             return;
         } else {
             // Sign in failed
@@ -113,6 +112,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startSignedInActivity() {
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @MainThread
@@ -133,12 +133,6 @@ public class SplashActivity extends AppCompatActivity {
         if (!isGoogleMisconfigured()) {
             selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
         }
-        if (!isFacebookMisconfigured()) {
-            selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
-        }
-        if (!isTwitterMisconfigured()) {
-            selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
-        }
         selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
         return selectedProviders;
     }
@@ -146,21 +140,6 @@ public class SplashActivity extends AppCompatActivity {
     @MainThread
     private boolean isGoogleMisconfigured() {
         return UNCHANGED_CONFIG_VALUE.equals(getString(R.string.default_web_client_id));
-    }
-
-    @MainThread
-    private boolean isFacebookMisconfigured() {
-        return UNCHANGED_CONFIG_VALUE.equals(getString(R.string.facebook_application_id));
-    }
-
-    @MainThread
-    private boolean isTwitterMisconfigured() {
-        List<String> twitterConfigs = Arrays.asList(
-                getString(R.string.twitter_consumer_key),
-                getString(R.string.twitter_consumer_secret)
-        );
-
-        return twitterConfigs.contains(UNCHANGED_CONFIG_VALUE);
     }
 
     @MainThread
