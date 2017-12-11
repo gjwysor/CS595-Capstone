@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mrschmitz.jobs.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -86,10 +87,17 @@ public class CurrentLocationMapsFragment extends Fragment implements OnMapReadyC
                 locationResult.addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         Location lastKnownLocation = task.getResult();
-                        lastKnownPosition = new LatLng(lastKnownLocation.getLatitude(),
-                                lastKnownLocation.getLongitude());
+                        if(lastKnownLocation != null) {
+                            lastKnownPosition = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastKnownPosition, DEFAULT_ZOOM));
+                        }
+                        else{
 
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastKnownPosition, DEFAULT_ZOOM));
+                            lastKnownPosition = defaultLocation;
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastKnownPosition, DEFAULT_ZOOM));
+                            Toast.makeText(getActivity(), "Could not grab location, default location entered.", Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
                         map.moveCamera(CameraUpdateFactory
                                 .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));

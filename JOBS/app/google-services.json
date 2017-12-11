@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "211853714317-iufq2cifcr7d28s4tps87ac4nl8ter9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mrschmitz.jobs",
+            "certificate_hash": "387dd0d25af53f60c9c77b0123c3a1eb28883576"
+          }
+        },
+        {
+          "client_id": "211853714317-bcfidrrhb61qhnqisgufcdov16bvn856.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mrschmitz.jobs",
+            "certificate_hash": "fce6f3c6d07706eb8312732f8c195beaa0b520e1"
+          }
+        },
+        {
+          "client_id": "211853714317-0p7kb7esv773qcebgn9kt931r3eidvrk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mrschmitz.jobs",
+            "certificate_hash": "53a98351dbfd2dad17dd4196153f89b77c259a7b"
+          }
+        },
+        {
           "client_id": "211853714317-2bnsuf3q7ih6u7r6n8pk6mfpqcr9jrha.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

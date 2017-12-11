@@ -128,6 +128,7 @@ public class MapsFragment extends CurrentLocationMapsFragment implements GoogleM
 
     private void animateCamera(List<Job> jobs) {
         LatLngBounds.Builder bounds = LatLngBounds.builder();
+
         bounds.include(getLastKnownPosition());
         for (Job job: jobs) {
             LatLng position = new LatLng(job.getLatitude(), job.getLongitude());
