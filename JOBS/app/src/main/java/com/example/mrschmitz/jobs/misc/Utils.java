@@ -14,6 +14,8 @@ import com.firebase.ui.auth.AuthUI;
 
 import org.parceler.Parcels;
 
+import java.util.UUID;
+
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.views.AvatarView;
 
@@ -68,6 +70,10 @@ public class Utils {
         Intent intent = new Intent(context, ProfileActivity.class);
         intent.putExtra(Constants.USERS, Parcels.wrap(user));
         context.startActivity(intent);
+    }
+
+    public static String getUniqueId() {
+        return UUID.randomUUID().toString();
     }
 
 }

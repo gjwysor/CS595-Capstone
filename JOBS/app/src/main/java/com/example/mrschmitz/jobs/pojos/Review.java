@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Parcel
 public class Review {
 
+    String uniqueId;
     String reviewedUid;
     String reviewerUid;
     int rating;

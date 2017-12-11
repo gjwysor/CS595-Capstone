@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Parcel
 public class Job {
 
+    String uniqueId;
     List<String> imageUrls;
     String title;
     double paymentAmount;
