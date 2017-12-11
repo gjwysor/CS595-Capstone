@@ -67,6 +67,11 @@ dependencies {
 
     //Bottom Navigation View Library
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+
+    //Chat
+    compile ('io.socket:socket.io-client:0.8.3') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 
