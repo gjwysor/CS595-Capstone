@@ -95,7 +95,6 @@ public class CurrentLocationMapsFragment extends Fragment implements OnMapReadyC
 
                             lastKnownPosition = defaultLocation;
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastKnownPosition, DEFAULT_ZOOM));
-                            Toast.makeText(getActivity(), "Could not grab location, default location entered.", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {

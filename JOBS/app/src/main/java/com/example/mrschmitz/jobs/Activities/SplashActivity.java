@@ -1,12 +1,15 @@
 package com.example.mrschmitz.jobs.Activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -20,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import butterknife.ButterKnife;
 
@@ -36,6 +43,7 @@ public class SplashActivity extends AppCompatActivity {
 
         int splashTimeout = 500;
         new Handler().postDelayed(() -> {
+            getLocationPermission();
             FirebaseAuth auth = FirebaseAuth.getInstance();
             if (auth.getCurrentUser() != null) {
                 startSignedInActivity();
@@ -59,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        getLocationPermission();
         if (requestCode == RC_SIGN_IN) {
             handleSignInResponse(resultCode, data);
             return;
@@ -113,6 +122,16 @@ public class SplashActivity extends AppCompatActivity {
     private void startSignedInActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
     }
 
     @MainThread

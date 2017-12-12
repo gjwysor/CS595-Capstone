@@ -107,6 +107,11 @@ public class Jobs {
         updateJob(job);
     }
 
+    public static void quitJob(Job job){
+        job.setWorkerUid(null);
+        updateJob(job);
+    }
+
     private static void updateJob(Job job) {
         jobsCollection()
                 .document(job.getUniqueId())

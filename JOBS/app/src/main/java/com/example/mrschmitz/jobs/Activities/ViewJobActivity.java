@@ -116,13 +116,19 @@ public class ViewJobActivity extends AppCompatActivity {
 
         Users.loadCurrentUser(user -> {
             MenuItem flagJobMenuItem = menu.findItem(R.id.flagJob);
-            flagJobMenuItem.setVisible(!job.isFlagged());
+            flagJobMenuItem.setVisible(!job.isFlagged() && !job.isFinished());
 
             MenuItem unflagJobMenuItem = menu.findItem(R.id.unflagJob);
             unflagJobMenuItem.setVisible(user.isAdmin() && job.isFlagged());
 
             MenuItem deleteJobMenuItem = menu.findItem(R.id.deleteJob);
             Jobs.canDeleteJob(job, deleteJobMenuItem::setVisible);
+
+            MenuItem finishJobMenuItem = menu.findItem(R.id.finishJob);
+            finishJobMenuItem.setVisible(user.getUniqueId().equals(job.getWorkerUid()) && !job.isFinished());
+
+            MenuItem quitJobMenuItem = menu.findItem(R.id.quitJob);
+            quitJobMenuItem.setVisible(user.getUniqueId().equals(job.getWorkerUid()) && !job.isFinished());
         });
 
         return super.onCreateOptionsMenu(menu);
@@ -146,6 +152,16 @@ public class ViewJobActivity extends AppCompatActivity {
             case R.id.deleteJob:
                 Jobs.deleteJob(job);
                 Toast.makeText(this, "Job deleted", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+
+            case R.id.finishJob:
+                Jobs.finishJob(job);
+                finish();
+                break;
+
+            case R.id.quitJob:
+                Jobs.quitJob(job);
                 finish();
                 break;
         }

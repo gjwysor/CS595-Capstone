@@ -325,8 +325,8 @@ public class MessagesFragment extends Fragment {
                         return;
                     }
 
-                    removeTyping(username);
-                    addMessage(username, message);
+                    //removeTyping(username);
+                    //addMessage(username, message);
                 }
             });
         }

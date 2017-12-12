@@ -20,4 +20,16 @@
         app:showAsAction="never"
         android:title="Delete Job"/>
 
+    <item
+        android:id="@+id/finishJob"
+        android:icon="@drawable/ic_delete_black_24dp"
+        app:showAsAction="never"
+        android:title="Finish Job"/>
+
+    <item
+        android:id="@+id/quitJob"
+        android:icon="@drawable/ic_delete_black_24dp"
+        app:showAsAction="never"
+        android:title="Quit Job"/>
+
 </menu>
